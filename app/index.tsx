@@ -1,15 +1,25 @@
-import { Text, View } from "react-native";
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
 
-export default function Index() {
+const IndexScreen = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View>
+      <Text>Choisissez votre faction</Text>
+      <View>
+        <Link href="/CharacterSelection" asChild>
+            <TouchableOpacity>
+              <Text>Jedi</Text>
+            </TouchableOpacity>
+        </Link>
+        <Link href="/CharacterSelection" asChild>
+          <TouchableOpacity>
+            <Text>Sith</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
     </View>
   );
-}
+};
+
+export default IndexScreen;
