@@ -4,8 +4,10 @@ import React, { createContext, useState, ReactNode } from 'react';
 type UserProfileContextType = {
   faction: string;
   character: string;
+  planet: string;
   setFaction: (faction: string) => void;
   setCharacter: (character: string) => void;
+  setPlanet: (planet: string) => void;
 };
 
 // 2. Créer et exporter le contexte (attention au typage)
@@ -15,14 +17,17 @@ export const UserProfileContext = createContext<UserProfileContextType | undefin
 export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
   const [faction, setFaction] = useState('Jedi'); // Jedi par défaut
   const [character, setCharacter] = useState<string>('');
+  const [planet, setPlanet] = useState<string>('');
 
   return (
     <UserProfileContext.Provider
       value={{
         faction,
         character,
+        planet,
         setFaction,
-        setCharacter
+        setCharacter,
+        setPlanet
       }}
     >
       {children}
