@@ -29,9 +29,8 @@ const CharacterSelectionScreen = () => {
 		.then((response) => response.json())
 		.then((data) => {
 			setCharacters(data.results);
-			setLoading(false);
 		})
-		.catch(() => {
+		.finally(() => {
 			setLoading(false);
 		});
 	}, []);
