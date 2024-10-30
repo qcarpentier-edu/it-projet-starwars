@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import { useUserProfileContext } from './hooks/useUserProfileContext';
 import { Link } from 'expo-router';
+import { themeStyles } from './styles/themeStyles';
 
 const ProfileScreen = () => {
     // Récupération des données dans le contexte
     const { faction, character, planet, ship } = useUserProfileContext();
 
+    // Chargement du style personnalisé
+	const styles = themeStyles(faction);
+
     return (
-        <View>
-            <Text>Profil de l'utilisateur</Text>
-            <Text>Faction: {faction}</Text>
-            <Text>Personnage: {character}</Text>
-            <Text>Planète: {planet}</Text>
-            <Text>Vaisseau: {ship}</Text>
-            <Link href="/">
-                <Text>Redéfinir mon profil</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Profil de l'utilisateur</Text>
+            <Text style={styles.profileText}>Faction: {faction}</Text>
+            <Text style={styles.profileText}>Personnage: {character}</Text>
+            <Text style={styles.profileText}>Planète: {planet}</Text>
+            <Text style={styles.profileText}>Vaisseau: {ship}</Text>
+            <Link href="/" style={styles.link}>
+                <Text style={styles.linkText}>Redéfinir mon profil</Text>
             </Link>
         </View>
     );

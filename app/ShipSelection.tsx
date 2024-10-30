@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { useUserProfileContext } from './hooks/useUserProfileContext';
+import { themeStyles } from './styles/themeStyles';
 
 type Ship = {
   name: string
@@ -15,6 +16,9 @@ const ShipSelectionScreen = () => {
     // Récupération des données dans le contexte
     const { faction, setShip } = useUserProfileContext();
 
+    // Chargement du style personnalisé
+	const styles = themeStyles(faction);
+
     useEffect(() => {
     fetch('https://swapi.dev/api/starships')
         .then((response) => response.json())
@@ -26,30 +30,29 @@ const ShipSelectionScreen = () => {
         });
     }, []);
 
-    // Fonction pour rendre chaque élément
     const renderItem = ({ item }: { item: Ship }) => (
-        <View>
-            <Text>{item.name}</Text>
-            <Link href="/ProfileScreen" asChild>
-            <TouchableOpacity onPress={() => setShip(item.name)}>
-                <Text>Sélectionner</Text>
-            </TouchableOpacity>
+        <View style={styles.item}>
+            <Text style={styles.itemText}>{item.name}</Text>
+            <Link href="/ProfileScreen" style={styles.link} asChild>
+                <TouchableOpacity onPress={() => setShip(item.name)} style={styles.button}>
+                <Text style={styles.buttonText}>Sélectionner</Text>
+                </TouchableOpacity>
             </Link>
         </View>
     );
 
     return (
-        <View>
-            <Text>Sélectionnez un vaisseau</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Sélectionnez un vaisseau</Text>
             
             {loading ? (
-            <ActivityIndicator size="large" color={faction === "Sith" ? '#ffffff' : '#000000'} />
+                <ActivityIndicator size="large" color={faction === "Sith" ? '#ffffff' : '#000000'} />
             ) : (
-            <FlatList
-                data={ships}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.name}
-            />
+                <FlatList
+                    data={ships}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.name}
+                />
             )}
         </View>
     );

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { useUserProfileContext } from './hooks/useUserProfileContext';
+import { themeStyles } from './styles/themeStyles';
 
 type Character = {
 	name: string;
@@ -15,6 +16,9 @@ const CharacterSelectionScreen = () => {
 
 	// Récupération des données du Context grâce au Hook personnalisé
 	const { faction, setCharacter } = useUserProfileContext();
+
+	// Chargement du style personnalisé
+	const styles = themeStyles(faction);
 		
 	useEffect(() => {
 		fetch('https://swapi.dev/api/people/')
@@ -28,19 +32,19 @@ const CharacterSelectionScreen = () => {
 	}, []);
 
 	const renderItem = ({ item }: { item: Character}) => (
-		<View>
-		<Text>{item.name}</Text>
-		<Link href="/PlanetSelection" asChild>
-			<TouchableOpacity onPress={() => setCharacter(item.name)}>
-				<Text>Sélectionner</Text>
+		<View style={styles.item}>
+		<Text style={styles.itemText}>{item.name}</Text>
+		<Link href="/PlanetSelection" style={styles.link} asChild>
+			<TouchableOpacity onPress={() => setCharacter(item.name)} style={styles.button}>
+				<Text style={styles.buttonText}>Sélectionner</Text>
 			</TouchableOpacity>
 		</Link>
 		</View>
 	);
 
 	return (
-		<View>
-		<Text>Sélectionnez un personnage</Text>
+		<View style={styles.container}>
+		<Text style={styles.title}>Sélectionnez un personnage</Text>
 
 		{loading ? (
 			<ActivityIndicator size="large" color={faction === "Sith" ? '#ffffff' : '#000000'} />

@@ -8,6 +8,7 @@ const IndexScreen = () => {
 	// Récupération des données du Context grâce au Hook personnalisé
 	const { faction, setFaction } = useUserProfileContext();
 
+	// Chargement du style personnalisé
   const styles = themeStyles(faction);
 
   return (

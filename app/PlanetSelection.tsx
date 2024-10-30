@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { useUserProfileContext } from './hooks/useUserProfileContext';
+import { themeStyles } from './styles/themeStyles';
 
 type Planet = {
   name: string
@@ -15,6 +16,9 @@ const PlanetSelectionScreen = () => {
     // Récupération des données dans le contexte
     const { faction, setPlanet } = useUserProfileContext();
 
+    // Chargement du style personnalisé
+	const styles = themeStyles(faction);
+
   useEffect(() => {
     fetch('https://swapi.dev/api/planets/')
       .then((response) => response.json())
@@ -27,19 +31,19 @@ const PlanetSelectionScreen = () => {
   }, []);
 
   const renderItem = ({ item }: { item: Planet }) => (
-    <View>
-      <Text>{item.name}</Text>
-      <Link href="/ShipSelection" asChild>
-        <TouchableOpacity onPress={() => setPlanet(item.name)}>
-          <Text>Sélectionner</Text>
+    <View style={styles.item}>
+      <Text style={styles.itemText}>{item.name}</Text>
+      <Link href="/ShipSelection" style={styles.link} asChild>
+        <TouchableOpacity onPress={() => setPlanet(item.name)} style={styles.button}>
+          <Text style={styles.buttonText}>Sélectionner</Text>
         </TouchableOpacity>
       </Link>
     </View>
   );
 
   return (
-    <View>
-      <Text>Sélectionnez une planète</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sélectionnez une planète</Text>
 
       {loading ? (
         <ActivityIndicator size="large" color={faction === "Sith" ? '#ffffff' : '#000000'} />
