@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
-import { UserProfileContext } from './context/UserProfileContext';
+import { useUserProfileContext } from './hooks/useUserProfileContext';
 
 type Character = {
 	name: string;
@@ -13,17 +13,9 @@ const CharacterSelectionScreen = () => {
 	// Sert à l'affichage du chargement de la page
 	const [loading, setLoading] = useState(true);
 
-	// Utilisation du Context (créé précédemment)
-	const context = useContext(UserProfileContext);
-
-	// Simple check si le contexte est undefined (sinon erreur de typage en TypeScript)
-	if (context === undefined) {
-		throw new Error("useUserProfile doit être dans un UserProfileProvider");
-	}
+	// Récupération des données du Context grâce au Hook personnalisé
+	const { faction, setCharacter } = useUserProfileContext();
 		
-	// Récupération des données du Context (faction pour le thème, setCharacter pour sauvegarder le personnage choisi)
-	const { faction, setCharacter } = context;
-
 	useEffect(() => {
 		fetch('https://swapi.dev/api/people/')
 		.then((response) => response.json())

@@ -1,19 +1,11 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
-import { UserProfileContext } from './context/UserProfileContext';
+import { useUserProfileContext } from './hooks/useUserProfileContext';
 
 const IndexScreen = () => {
-  // Utilisation du Context (créé précédemment)
-	const context = useContext(UserProfileContext);
-
-	// Simple check si le contexte est undefined (sinon erreur de typage en TypeScript)
-	if (context === undefined) {
-		throw new Error("useUserProfile doit être dans un UserProfileProvider");
-	}
-		
-	// Récupération des données du Context (faction pour le thème, setFaction pour sauvegarder la faction choisie)
-	const { faction, setFaction } = context;
+	// Récupération des données du Context grâce au Hook personnalisé
+	const { faction, setFaction } = useUserProfileContext();
 
   return (
     <View>
